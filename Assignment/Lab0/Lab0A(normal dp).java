@@ -1,4 +1,5 @@
-// Achievement: 60%
+/* Achievement: 60%
+ */
 
 import java.util.Scanner;
 

@@ -1,4 +1,8 @@
-// Achievement: 100%
+/* Achievement: 100%
+ * Complexity: O(L+N)
+ * For the first L steps, there are 2^L ways; For the rest steps, way[i+1] = 2*way[i]+way[i-stride]
+ * Dislocation Subtraction!
+ */
 
 import java.util.Scanner;
 

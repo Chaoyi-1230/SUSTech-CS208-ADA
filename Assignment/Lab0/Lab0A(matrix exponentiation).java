@@ -1,4 +1,9 @@
-// Achievement: 100%
+/*
+ * Achievement: 20%
+ * Complexity: O(L^3*logN)
+ * Best being used when L is very small and N is large, not suitable for this specific question
+ */
+
 
 import java.util.Scanner;
 
