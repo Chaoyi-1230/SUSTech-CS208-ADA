@@ -1,3 +1,5 @@
+//  Achievement: 90% and TLE
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,43 +21,58 @@ public class Lab2A {
             }
             diff = rmvDupSort(diff);
             num = diff.length;
+            int max = diff[num-1];
             if (num == 1) {
-                System.out.println(diff[0]);
+                System.out.println(max);
                 continue;
             } else if (num == 2) {
-                System.out.println(diff[1] % diff[0] == 0 ? diff[1] : diff[0] + diff[1]);
+                System.out.println(max % diff[0] == 0 ? max : diff[0] + max);
                 continue;
             }
-            int s1 = diff[num-1];   // s1 is the max difficulty for one question.
             
-            int s2 = diff[num-1];
+            int s2 = 0;
             for (int i = num-2; i >= 0; i--) {
-                if (s2 % diff[i] != 0) {
-                    s2 += diff[i];
+                if (max % diff[i] != 0) {
+                    s2 = diff[i] + max;
                     break;
                 }
             }
 
-            int s3 = diff[num-1];
-            for (int i = num-2; i >= 0; i--) {
-                if (s3 % diff[i] == 0) {
-                    diff[i] = 0;
-                }
-            }
-            Arrays.sort(diff);
-
-            if (diff[num-3] == 0) {
-                System.out.println(s2);
-            } else {
-                s3 += diff[num-2];
-                for (int i = num-3; i >= 0 && diff[i] != 0; i--) {
-                    if (diff[num-2] % diff[i] != 0) {
-                        s3 += diff[i];
+            int s3 = 0;
+            for (int i = num-1; diff[i] >= max / 3; i--) {
+                int big = diff[i];
+                int middle = 0;
+                int middleIndex = -1;
+                for (int j = i-1; j >= 0; j--) {
+                    if (big % diff[j] != 0) {
+                        middle = diff[j];
+                        middleIndex = j;
                         break;
-                    } 
+                    }
                 }
-                System.out.println(s3);
+                if (middle == 0 || middleIndex <= 0) {
+                    continue;
+                }
+                int small = 0;
+                int smallIndex = -1;
+                for (int j = middleIndex-1; j >= 0; j--) {
+                    if (middle % diff[j] != 0 && big % diff[j] != 0) {
+                        small = diff[j];
+                        smallIndex = j;
+                        break;
+                    }
+                }
+                if (small == 0 || smallIndex < 0) {
+                    continue;
+                }
+                if (big+middle+small > s3) {
+                    s3 = big+middle+small;
+                }
             }
+
+            int[] s = {max,s2,s3};
+            Arrays.sort(s);
+            System.out.println(s[2]);
         }
     }
 
