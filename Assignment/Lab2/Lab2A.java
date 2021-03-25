@@ -1,4 +1,4 @@
-//  Achievement: 90% and TLE
+//  Achievement: 90% and WA
 
 import java.util.HashMap;
 import java.util.HashSet;
