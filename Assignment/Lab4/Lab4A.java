@@ -1,68 +1,50 @@
-//  Achievement: 60%
+//  Achievement: 100%
+//  Lexi Topo Sort
 
 import java.util.*;
 import java.io.*;
 
 public class Lab4A {
     public static void main(String[] args) {
-        boolean possible = true;
         int job = sk.nextInt();
         int dep = sk.nextInt();
-        LinkedList<Integer> priList = new LinkedList();
-        LinkedList<Integer> output = new LinkedList();
-        boolean[] traversed = new boolean[job+1];
+        PriorityQueue priQueue = new PriorityQueue<Integer>();  // A heap helps find the smallest untraversed node.
+        LinkedList output = new LinkedList<Integer>();  // A linkedlist with nodes in topological order.
+        int[] inDegree = new int[job+1];
+        LinkedList[] outGraph = new LinkedList[job+1];
         for (int i = 1; i <= job; i++) {
-            priList.add(i);
-        }
-        LinkedList<Integer>[] graph = new LinkedList[job+1];
-        for (int i = 1; i <= job; i++) {
-            graph[i] = new LinkedList();
+            outGraph[i] = new LinkedList<Integer>();
         }
         
         for (int i = 0; i < dep; i++) {
             int from = sk.nextInt();
             int to = sk.nextInt();
-            graph[to].add(from);
+            outGraph[from].add(to);
+            inDegree[to]++;
         }
-        
-        int untraversed = job;
-        while (untraversed > 0) {
-            int least = 0;
-            for (Iterator iter = priList.iterator(); iter.hasNext();) {
-                int i = Integer.parseInt(iter.next().toString());
-                //int i = iter.next().toString();
-                if (graph[i].isEmpty() && !traversed[i]) {
-                    least = i;
-                    traversed[i] = true;
-                    untraversed--;
-                    output.add(i);
-                    break;
-                }
-            }
 
-            if (least <= 0) {
-                possible = false;
-                break;
-            }
-
-            for (int i = 1; i <= job; i++) {
-                int index = 0;
-                for (Iterator iter = graph[i].iterator(); iter.hasNext();) {
-                    int j = Integer.parseInt(iter.next().toString());
-                    //int j = iter.next();
-                    if (j == least) {
-                        graph[i].remove(index);
-                        break;
-                    } else {
-                        index++;
-                    }
-                }
+        for (int i = 1; i <= job; i++) {
+            if (inDegree[i] == 0) {
+                priQueue.add(i);
             }
         }
 
-        if (possible) {
-            for (int i : output) {
-                System.out.print(i);
+        while (!priQueue.isEmpty()) {
+            int least = (Integer)priQueue.poll();
+            output.add(least);
+
+            for (Object n : outGraph[least]) {
+                inDegree[(Integer)n]--;
+                if (inDegree[(Integer)n] == 0) {
+                    priQueue.add((Integer)n);
+                }
+            }
+            outGraph[least] = null;   
+        }
+
+        if (output.size()==job) {
+            for (Iterator iter = output.iterator(); iter.hasNext();) {
+                System.out.print(iter.next());
                 System.out.print(" ");
             }
             System.out.println();
