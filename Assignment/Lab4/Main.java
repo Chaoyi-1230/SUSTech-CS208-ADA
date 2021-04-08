@@ -4,48 +4,23 @@
 import java.util.*;
 import java.io.*;
 
-public class Lab4B {
+public class Main {
     public static void main(String[] args) {
         int num = sk.nextInt();
         int[] w = new int[num+1];
-        int[] s = new int[num+1];
-        boolean[] traversed = new boolean[num+1];
         for (int i = 1; i <= num; i++) {
             w[i] = sk.nextInt();
         }
-        LinkedList[] graph = new LinkedList[num+1];
+        ArrayList nodes = new ArrayList<Node>();
+        nodes.add(null);
         for (int i = 1; i <= num; i++) {
-            graph[i] = new LinkedList<Integer>();
+            Node tmp = new Node(i, sk.nextInt());
+            nodes.add(tmp);
         }
-        for (int i = 1; i < num; i++) {
-            int tmp1 = sk.nextInt();
-            int tmp2 = sk.nextInt();
-            graph[tmp1].add(tmp2);
-            graph[tmp2].add(tmp1);
+        for (int i = 1; i <= num-1; i++) {
+            
         }
         
-        Stack stack = new Stack<Integer>();
-        stack.push(1);
-        traversed[1] = true;
-        while(!stack.empty()) {
-            int cur = (int)stack.pop();
-            if (!traversed[cur]) {
-                traversed[cur] = true;
-                for (Iterator iter = graph[cur].iterator(); iter.hasNext();) {
-                    s[cur] += s[(int)iter.next()];
-                }
-                s[cur] += w[cur];
-            }
-            for (Iterator iter = graph[cur].iterator(); iter.hasNext();) {
-                int tmp = (int)iter.next();
-                if (!traversed[tmp]) {
-                    traversed[tmp] = true;
-                    stack.push(tmp);
-                }
-            }
-        }
-
-        Arrays.sort(s);
     }
 
     private static QuickReader sk = new QuickReader(System.in);
@@ -82,5 +57,16 @@ public class Lab4B {
             return Double.parseDouble(next());
         }
 
+    }
+}
+
+public class Node {
+    int id;
+    int weight;
+    ArrayList children;
+
+    Node(int i, int w) {
+        this.id = i;
+        this.weight = w;
     }
 }
